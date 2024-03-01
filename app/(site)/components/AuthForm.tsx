@@ -7,9 +7,10 @@ import AuthSocialButton from "./AuthSocailButtonl";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 type Variant = "LOGIN" | "REGISTER";
 function AuthForm() {
+  const session = useSession()
   const [variant, setVariant] = React.useState<Variant>("REGISTER");
   const [isLoding, setIsLoding] = React.useState(false);
   const {
@@ -87,6 +88,16 @@ function AuthForm() {
         setIsLoding(false);
       });
   };
+
+
+  React.useEffect(()=>{
+    if(session.status === "authenticated"){
+      console.log('authenticted')
+      console.log('status',session.status);
+      console.log('data',session.data)
+      
+    }
+  },[session.status])
   return (
     <div
       className="
