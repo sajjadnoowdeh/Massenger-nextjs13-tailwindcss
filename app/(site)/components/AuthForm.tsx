@@ -5,11 +5,13 @@ import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import AuthSocialButton from "./AuthSocailButtonl";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
 type Variant = "LOGIN" | "REGISTER";
 function AuthForm() {
-  const [variant, setVariant] = React.useState<Variant>("LOGIN");
+  const [variant, setVariant] = React.useState<Variant>("REGISTER");
   const [isLoding, setIsLoding] = React.useState(false);
-
   const {
     register,
     handleSubmit,
@@ -26,6 +28,7 @@ function AuthForm() {
     if (variant === "REGISTER") {
       setVariant("LOGIN");
     }
+
     if (variant === "LOGIN") {
       setVariant("REGISTER");
     }
@@ -36,9 +39,33 @@ function AuthForm() {
 
     if (variant === "REGISTER") {
       //  Axios Register
+
+      axios
+        .post("/api/register", data)
+        .catch(() => toast.error("Somthing went wrong"))
+        .finally(() => setIsLoding(false));
     }
     if (variant === "LOGIN") {
       // NextAuth Sign In
+
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Invalid Credntials");
+          }
+
+          if (callback?.ok) {
+            console.log("check test");
+
+            toast.success("Logged In!!!");
+          }
+        })
+        .finally(() => {
+          setIsLoding(false);
+        });
     }
   };
 
@@ -46,6 +73,19 @@ function AuthForm() {
     setIsLoding(true);
 
     // NextAuth Social Sign In
+    signIn(type, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error("Invalid Credntials");
+        }
+
+        if (callback?.ok || !callback?.error) {
+          toast.success("Logged In!!");
+        }
+      })
+      .finally(() => {
+        setIsLoding(false);
+      });
   };
   return (
     <div
@@ -70,7 +110,7 @@ function AuthForm() {
           {variant === "REGISTER" && (
             <Input
               lable="User name"
-              id="username"
+              id="name"
               register={register}
               errors={errors}
               disabled={isLoding}
@@ -123,12 +163,10 @@ function AuthForm() {
 
         <div className="flex justify-center px-2 mt-6 gap-2 text-sm text-gray-500 mb-2">
           <div>
-            {variant === "LOGIN" ? 'New To Messanger?' : 'Already has Account?'}
+            {variant === "LOGIN" ? "New To Messanger?" : "Already has Account?"}
           </div>
           <div className="underline cursor-pointer" onClick={toggleVariant}>
-              {
-                variant === "LOGIN" ? 'Create an account' : 'Login'
-              }
+            {variant === "LOGIN" ? "Create an account" : "Login"}
           </div>
         </div>
       </div>
