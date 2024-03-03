@@ -1,24 +1,54 @@
-"use client"
-import React from 'react'
-import useRoutes from '@/app/hooks/useRoutes'
-import DesktopSidebarItem from './DesktopSidebarItems'
-const DesktopSidebar = ()=>{
+"use client";
+import React from "react";
+import useRoutes from "@/app/hooks/useRoutes";
+import DesktopSidebarItem from "./DesktopSidebarItem";
+import { User } from "@prisma/client";
 
-    const routes = useRoutes()
-    console.log(routes)
-    return(
-        <div> {
-               routes.map((route)=>(
-                <DesktopSidebarItem 
-                  key={route.href}
-                  lable={route.lable}
-                  href={route.href}
-                  onClick={route?.onClick}
-                
-                />
-               ))
-            } </div>
-    )
+
+interface IDesktopSidebar{
+  user:User
 }
+const DesktopSidebar:React.FC<IDesktopSidebar> = ({user}) => {
+  const routes = useRoutes();
 
-export default DesktopSidebar
+
+  console.log({user});
+  
+  return (
+    <div
+      className="
+            hidden
+            lg:fixed
+            lg:inset-y-0
+            lg:left-0
+            lg:z-40
+            lg:w-20
+            xl:px-6
+            lg:overflow-y-auto
+            lg:bg-white
+            lg:border-r-[1px]
+            lg:pb-4
+            lg:flex
+            lg:flex-col
+            justify-between
+          "
+    >
+      <nav className="mt-4 flex flex-col justify-between">
+        <ul className="flex flex-col items-center space-y-1">
+          {routes.map((route) => (
+            <DesktopSidebarItem
+              key={route.href}
+              lable={route.lable}
+              icon={route?.icon}
+              href={route.href}
+              active={route.active}
+              onClick={route?.onClick}
+            />
+          ))}{" "}
+        </ul>
+      </nav>
+    </div>
+  );
+};
+
+export default DesktopSidebar;

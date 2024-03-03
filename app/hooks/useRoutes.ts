@@ -1,14 +1,14 @@
 "use client"
 import React from "react";
 import { useMemo } from "react";
-import { useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {HiChat} from 'react-icons/hi'
 import {HiUsers,HiArrowLeftOnRectangle} from 'react-icons/hi2'
 import { signOut } from "next-auth/react";
 import useConversation from "./useConversationl";
 const useRoutes = ()=>{
-    const {pathname} = useParams()
-
+    const pathname = usePathname()
+   
     const {conversationId} = useConversation()
     const routes = useMemo(()=>[
        {
@@ -20,12 +20,13 @@ const useRoutes = ()=>{
        {
         lable:'Users',
         href:'/users',
-        icon:HiChat,
+        icon:HiUsers,
         active:pathname === '/users' || !!conversationId
        },
        {
         lable:"Logout",
-        href:"#",
+        href:"/",
+        icon:HiArrowLeftOnRectangle,
         onClick:()=>signOut()
        }
     ]
