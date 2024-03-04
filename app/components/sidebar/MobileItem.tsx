@@ -11,7 +11,7 @@ interface IMobileItem {
 }
 const MobileItem: React.FC<IMobileItem> = ({
   href,
-  icon,
+  icon:Icon,
   label,
   active,
   onClick,
@@ -30,8 +30,8 @@ const MobileItem: React.FC<IMobileItem> = ({
         active && "bg-gray-100 text-black"
       )}
     >
-      {label}
-    </Link>
+       <Icon className={'h-6 w-6'} />
+    </Link> 
   );
 };
 

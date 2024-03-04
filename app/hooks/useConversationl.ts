@@ -9,6 +9,7 @@ const useConversation = () => {
       return "";
     }
 
+    console.log('conversation======>',params.conversationId)
     return params.conversationId as string;
   }, [params.conversationId]);
 
