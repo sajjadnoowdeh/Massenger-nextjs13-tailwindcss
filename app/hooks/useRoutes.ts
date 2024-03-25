@@ -8,7 +8,8 @@ import { signOut } from "next-auth/react";
 import useConversation from "./useConversationl";
 const useRoutes = ()=>{
     const pathname = usePathname()
-   
+    console.log('is pathname',{pathname});
+    
     const {conversationId} = useConversation()
     const routes = useMemo(()=>[
        {
