@@ -24,9 +24,12 @@ const ConversationBox: React.FC<IConversationBox> = ({
   }, [userItem.id, router]);
 
   const lastMessage = useMemo(() => {
-    const messages = userItem.messages || [];
-    return messages[messages.legnth - 1];
+    
+
+    const messages = userItem.message || [];
+    return messages[messages.length - 1];
   }, [userItem.messages]);
+
 
   const userEmail = useMemo(() => {
     return session.data?.user?.email;

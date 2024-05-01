@@ -17,7 +17,7 @@ const UsersBox: React.FC<IUsersBox> = ({ user }) => {
     setLoading(true);
     axios
       .post("/api/conversations", { userId: user.id })
-      .then((data) => router.push(`/api/conversations/${user.id}`))
+      .then((data) => router.push(`/conversations/${user.id}`))
       .finally(() => setLoading(false));
   }, [user, router]);
   return (

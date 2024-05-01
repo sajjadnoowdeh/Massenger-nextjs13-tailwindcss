@@ -1,17 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import getConversationById from '@/app/actions/getConversationById'
 import getMessages from '@/app/actions/getMessages'
 import EmptyState from '@/app/components/EmptyState'
 import Header from "@/app/conversations/[conversationId]/components/Header/page"
+import Body from './components/Body'
+import { Form } from './components/Form'
 interface IParams{
   conversationId:string
 }
 const ConversationId =async ({params}:{params:IParams})=>{
     const conversation = await getConversationById(params.conversationId)
     const messages = await getMessages(params.conversationId)
-
-
     if(!conversation){
      return(
       <div className='lg:pl-80 h-full'>
@@ -25,6 +25,8 @@ const ConversationId =async ({params}:{params:IParams})=>{
       <div className='lg:pl-80 h-full'>
       <div className='h-full flex flex-col'>
            <Header conversation={conversation} />
+           <Body messages={messages} />
+           <Form />
       </div>
     </div>
     )

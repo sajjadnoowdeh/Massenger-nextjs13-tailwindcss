@@ -8,8 +8,6 @@ const useConversation = () => {
     if (!params.conversationId) {
       return "";
     }
-
-    console.log('conversation======>',params.conversationId)
     return params.conversationId as string;
   }, [params.conversationId]);
 

@@ -10,7 +10,7 @@ const getCurrentUser = async () => {
     if(!session?.user?.email){
         return null
     }
-    console.log("session====>",{session})
+    // console.log("session====>",{session})
     const currentUser = prisma.user.findUnique({
         where:{
             email:session.user.email as string

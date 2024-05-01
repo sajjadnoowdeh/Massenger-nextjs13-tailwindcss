@@ -9,6 +9,10 @@ const useOtherUsers = (
   const session = useSession();
   const otherUsers = useMemo(() => {
     const userEmail = session.data?.user?.email;
+    console.log({conversation});
+    
+    console.log(conversation?.users?.filter((user) => user.email !== userEmail));
+    
     return conversation?.users?.filter((user) => user.email !== userEmail)[0]
   }, [session.data?.user?.email, conversation.users]);
 

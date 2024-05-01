@@ -8,14 +8,13 @@ import useConversation from "../hooks/useConversationl";
 const ConversationLayout = async ({ children }: { children: React.ReactNode }) => {
 
     const conversations = await getConversations()
-
-    console.log({conversations})
   return (
     
     <Sidebar>
-      <div className="h-full">
-         <ConversationList initItems={conversations} />
-        {children}</div>
+        <div className="h-full">
+            <ConversationList initItems={conversations} />
+            {children}  
+        </div>
     </Sidebar>
   );
 };
