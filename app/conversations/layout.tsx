@@ -6,10 +6,9 @@ import { useRouter } from "next/navigation";
 import useConversation from "../hooks/useConversationl";
 
 const ConversationLayout = async ({ children }: { children: React.ReactNode }) => {
+  const conversations = await getConversations()
 
-    const conversations = await getConversations()
   return (
-    
     <Sidebar>
         <div className="h-full">
             <ConversationList initItems={conversations} />

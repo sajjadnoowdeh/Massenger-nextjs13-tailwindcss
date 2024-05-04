@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { useMemo } from "react";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
+import ProfileDrawer from "../ProfileDrawer";
 
 interface IHeader {
   conversation:
@@ -18,6 +19,7 @@ interface IHeader {
 const Header: React.FC<IHeader> = ({ conversation }) => {
   const otherUser = useOtherUsers(conversation);
 
+  const [drawerOpen,setDrawerOpen] = React.useState(false) 
   const statusText = useMemo(() => {
     if (conversation.isGroup) {
       return `${conversation.users.legnth} members`;
@@ -27,6 +29,13 @@ const Header: React.FC<IHeader> = ({ conversation }) => {
   }, [conversation]);
 
   return (
+
+    <>
+    <ProfileDrawer
+      isOpen={drawerOpen}
+      onClose={()=>setDrawerOpen(false)}
+      data={conversation}
+    />
     <div className="bg-whtie w-full flex border-b-[1px] sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
       <div className="flex gap-3 items-center">
         <Link
@@ -44,10 +53,11 @@ const Header: React.FC<IHeader> = ({ conversation }) => {
 
       <HiEllipsisHorizontal
         size={32}
-        onClick={() => {}}
+        onClick={() => setDrawerOpen(true)}
         className="text-sky-500 cursor-pointer hover:text-sky-600 transition"
       />
     </div>
+    </>
   );
 };
 

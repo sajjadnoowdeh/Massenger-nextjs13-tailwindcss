@@ -2,6 +2,7 @@ import React from "react";
 import getCurrentUser from "./getCurrentUser";
 
 const getConversations = async () => {
+  // @ts-ignore
   const currentUser = await getCurrentUser();
 
   if (!currentUser?.id) {

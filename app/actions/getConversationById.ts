@@ -15,7 +15,7 @@ const getConversationById = async(conversationId:string)=>{
                 id: conversationId
             },
             include:{
-                users:false
+                users:true
             }
         })
 

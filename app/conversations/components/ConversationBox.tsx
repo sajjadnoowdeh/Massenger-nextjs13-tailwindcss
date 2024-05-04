@@ -13,6 +13,7 @@ const ConversationBox: React.FC<IConversationBox> = ({
   userItem,
   selected,
 }) => {
+  console.log('userItem conversationBox',userItem)
   const otherUser = useOtherUsers(userItem);
   const session = useSession();
   const router = useRouter();
