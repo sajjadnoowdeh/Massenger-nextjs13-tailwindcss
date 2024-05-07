@@ -18,52 +18,47 @@ export async function POST(request: Request, { params }: { params: IParms }) {
       where: {
         id: conversationId,
       },
-      include:{
-        message:{
-            include:{
-                seen:true
-            }
+      include: {
+        message: {
+          include: {
+            seen: true,
+          },
         },
-        users:true
-      }
+        users: true,
+      },
     });
 
-
-    if(!conversation){
-        return new NextResponse('NOT COVERSATION WITH ID',{status:400})
+    if (!conversation) {
+      return new NextResponse("NOT COVERSATION WITH ID", { status: 400 });
     }
 
-
     // Find lastMessage
-    const lastMessage = conversation.message[conversation.message.length - 1]
+    const lastMessage = conversation.message[conversation.message.length - 1];
 
-
-    if(!lastMessage){
-        return NextResponse.json(conversation)
-
+    if (!lastMessage) {
+      return NextResponse.json(conversation);
     }
 
     // Update seen of lastMessage
 
     const updatedMessagesForSeen = await prisma?.message.update({
-            where:{
-                id:lastMessage.id
-            },
-            include:{
-                sender:true,
-                seen:true
-            },
-            data:{
-                seen:{
-                    connect:{
-                        id:currentUser.id
-                    }
-                }
-            }
+      where: {
+        id: lastMessage.id,
+      },
+      include: {
+        sender: true,
+        seen: true,
+      },
+      data: {
+        seen: {
+          connect: {
+            id: currentUser.id,
+          },
+        },
+      },
+    });
 
-    })
-
-    return NextResponse.json(updatedMessagesForSeen)
+    return NextResponse.json(updatedMessagesForSeen);
   } catch (error) {
     return new NextResponse("ERROR SEEN CONVERSATION", { status: 500 });
   }

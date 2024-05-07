@@ -4,6 +4,7 @@ import useRoutes from "@/app/hooks/useRoutes";
 import DesktopSidebarItem from "./DesktopSidebarItem";
 import { User } from "@prisma/client";
 import Avatar from "../Avatar";
+import SettingModal from "../SettingModal";
 
 interface IDesktopSidebar {
   user: User;
@@ -14,6 +15,12 @@ const DesktopSidebar: React.FC<IDesktopSidebar> = ({ user }) => {
   console.log({ user });
 
   return (
+    <>
+    <SettingModal
+      isOpen={isOpen}
+      onClose={()=>setIsOpen(false)}
+      currentUser={user}
+    />
     <div
       className="
             hidden
@@ -56,6 +63,8 @@ const DesktopSidebar: React.FC<IDesktopSidebar> = ({ user }) => {
         </div>
       </nav>
     </div>
+    
+    </>
   );
 };
 

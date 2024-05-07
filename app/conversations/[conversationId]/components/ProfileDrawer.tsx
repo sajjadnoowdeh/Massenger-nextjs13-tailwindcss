@@ -6,6 +6,8 @@ import { format } from "date-fns/format";
 import { Transition, Dialog } from "@headlessui/react";
 import { IoClose, IoTrash } from "react-icons/io5";
 import Avatar from "@/app/components/Avatar";
+import Modal from "@/app/components/Modal";
+import ConfirmModal from "@/app/components/ConfirmModal";
 interface IProfileDrawer {
   isOpen: boolean;
   onClose: () => void;
@@ -16,6 +18,7 @@ interface IProfileDrawer {
 const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
 
   const otherUser = useOtherUsers(data);
+  const [isOpenConfirm,setIsOpenConfirm] = React.useState(false)
   const createDate = useMemo(() => {
     if (otherUser?.createdAt) {
       return format(new Date(otherUser?.createdAt), "PP");
@@ -40,6 +43,11 @@ const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
     return "Active";
   }, [data]);
   return (
+    <>
+    <ConfirmModal 
+       isOpen={isOpenConfirm}
+       onClose={()=>setIsOpenConfirm(false)}
+    />
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as={"div"} onClose={onClose} className={"relative z-50"}>
         <Transition.Child
@@ -77,7 +85,7 @@ const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
           >
             <div
               className="
-                        pointer-events-none
+               
                         fixed
                         inset-y-0
                         right-0
@@ -96,7 +104,7 @@ const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
               >
                 <Dialog.Panel
                   className="
-                               pointer-events-none
+                              
                                w-screen
                                max-w-md
                            "
@@ -167,16 +175,18 @@ const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
                           "
                         >
                           <div
-                            onClick={() => {}}
+                            onClick={() => setIsOpenConfirm(true)}
                             className="
                               flex
                               flex-col
                               gap-3
                               items-center
                               cursor-pointer
+                              z-50
                              "
                           >
                             <div
+                              
                               className="
                               w-10
                               h-10
@@ -190,6 +200,7 @@ const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
                               <IoTrash size={20} />
                             </div>
                             <div
+                      
                               className="
                                    text-sm
                                    font-light
@@ -269,6 +280,7 @@ const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
         </div>
       </Dialog>
     </Transition.Root>
+    </>
   );
 };
 
