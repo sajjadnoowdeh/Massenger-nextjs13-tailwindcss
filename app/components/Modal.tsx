@@ -57,7 +57,9 @@ const Modal: React.FC<IModal> = ({ isOpen, onClose,children }) => {
           >
             <Dialog.Panel
               className="
-                     relative
+                     absolute
+                     h-50
+                     top-[-30]
                      transform
                      overflow-hidden
                      rounded-lg

@@ -13,8 +13,6 @@ export async function POST(requste:Request){
         if (!currentUser?.id || !currentUser.email) {
             return new NextResponse("Unauthroized", { status: 401 });
           }
-
-
           const updateUser = await prisma?.user.update({
             where:{
                 id:currentUser.id

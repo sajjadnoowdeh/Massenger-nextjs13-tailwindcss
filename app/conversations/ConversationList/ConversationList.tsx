@@ -1,5 +1,5 @@
 "use client";
-import { Conversation } from "@prisma/client";
+import { Conversation, User } from "@prisma/client";
 import { FullConvresationType } from "@/app/types";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -7,17 +7,25 @@ import useConversation from "@/app/hooks/useConversationl";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import clsx from "clsx";
 import ConversationBox from "../components/ConversationBox";
+import GroupModalChat from "../components/GroupModalChat";
 interface IConversatonList {
   initItems: FullConvresationType[];
+  users:User[]
 }
 
-const ConversationList: React.FC<IConversatonList> = ({ initItems }) => {
+const ConversationList: React.FC<IConversatonList> = ({ initItems ,users}) => {
   const [items, setItems] = useState(initItems);
-
+  const [isOpenModal,setIsOpenModal] = React.useState(false)
   const router = useRouter();
 
   const { isOpen, conversationId } = useConversation();
   return (
+    <>
+    <GroupModalChat
+      isOpen={isOpenModal}
+      onClose={()=>setIsOpenModal(true)}
+      users={users}
+    />
     <aside
       className={clsx(
         `
@@ -40,7 +48,7 @@ const ConversationList: React.FC<IConversatonList> = ({ initItems }) => {
           <div className="text-2xl font-bold text-neutral-800">Message</div>
 
           <div className="rounded-s-full p-2 bg-gray-100 text-gray-600 cursor-pointer hover:opacity-75 transition">
-            <MdOutlineGroupAdd size={20} />
+            <MdOutlineGroupAdd size={20} onClick={()=>setIsOpenModal(true)}/>
           </div>
         </div>
 
@@ -55,6 +63,7 @@ const ConversationList: React.FC<IConversatonList> = ({ initItems }) => {
         </div>
       </div>
     </aside>
+    </>
   );
 };
 
