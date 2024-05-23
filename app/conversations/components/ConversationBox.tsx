@@ -1,3 +1,4 @@
+"use client"
 import React, { useCallback, useMemo } from "react";
 import useOtherUsers from "@/app/hooks/useOtherUsers";
 import { useRouter } from "next/navigation";
@@ -5,6 +6,7 @@ import { useSession } from "next-auth/react";
 import clsx from "clsx";
 import Avatar from "@/app/components/Avatar";
 import { format } from "date-fns";
+import AvatarGroup from "../[conversationId]/components/AvatarGroup";
 interface IConversationBox {
   userItem: any;
   selected: boolean;
@@ -13,24 +15,20 @@ const ConversationBox: React.FC<IConversationBox> = ({
   userItem,
   selected,
 }) => {
-  console.log('userItem conversationBox',userItem)
   const otherUser = useOtherUsers(userItem);
   const session = useSession();
   const router = useRouter();
 
-  console.log({ otherUser });
+  console.log({ userItem });
 
   const handleClick = useCallback(() => {
     router.push(`/conversations/${userItem.id}`);
   }, [userItem.id, router]);
 
   const lastMessage = useMemo(() => {
-    
-
     const messages = userItem.message || [];
     return messages[messages.length - 1];
   }, [userItem.messages]);
-
 
   const userEmail = useMemo(() => {
     return session.data?.user?.email;
@@ -71,23 +69,30 @@ const ConversationBox: React.FC<IConversationBox> = ({
         selected ? "bg-neutral-50 p-3" : "bg-white"
       )}
     >
-      <Avatar user={userItem} />
+      {userItem.isGroup ? (
+        <AvatarGroup users={userItem.users} />
+      ) : (
+        <Avatar user={userItem} />
+      )}
+
       <div className="min-w-0 flex">
         <div className="focus:outline-none">
           <div className="flex justify-between items-center mb-1">
             <p className="text-md font-medium text-gray-900">
               {userItem.name || otherUser.name}
-
             </p>
-            {
-              true && (
-                <p className="text-xs text-gray-400 font-light">
-                  {format(new Date(), 'p')}
-                </p>
-              )
-            }
+            {true && (
+              <p className="text-xs text-gray-400 font-light">
+                {format(new Date(), "p")}
+              </p>
+            )}
           </div>
-          <p className={clsx(`text-sm truncate`,hasSeen ? 'text-gray-500' : 'text-black font-medium')}>
+          <p
+            className={clsx(
+              `text-sm truncate`,
+              hasSeen ? "text-gray-500" : "text-black font-medium"
+            )}
+          >
             {lastMessageText}
           </p>
         </div>

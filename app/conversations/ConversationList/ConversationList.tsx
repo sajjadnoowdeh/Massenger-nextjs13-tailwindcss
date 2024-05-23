@@ -23,7 +23,7 @@ const ConversationList: React.FC<IConversatonList> = ({ initItems ,users}) => {
     <>
     <GroupModalChat
       isOpen={isOpenModal}
-      onClose={()=>setIsOpenModal(true)}
+      onClose={()=>setIsOpenModal(false)}
       users={users}
     />
     <aside

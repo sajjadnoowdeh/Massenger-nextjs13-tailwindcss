@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { FullMessangeType } from "@/app/types";
 import { useSession } from "next-auth/react";
 import Avatar from "@/app/components/Avatar";
 import clsx from "clsx";
 import { format } from "date-fns/format";
 import Image from "next/image";
+import ImageModal from "./ImageModal";
 
 interface IMessageBox {
   isLast: boolean;
@@ -14,6 +15,7 @@ interface IMessageBox {
 
 export const MessageBox: React.FC<IMessageBox> = ({ isLast, message }) => {
   const session = useSession();
+  const [openModal,setOpenModal] = useState(false)
   const isOwn = session.data?.user?.email === message?.sender.email;
   console.log('isOwn',message)
   const seenList = (message.seen || [])
@@ -21,7 +23,7 @@ export const MessageBox: React.FC<IMessageBox> = ({ isLast, message }) => {
     .map((user) => user.name)
     .join(", ");
 
-  console.log({ seenList });
+  console.log({ message });
 
   const container = clsx("flex gap-4 p-4", isOwn && "justify-end");
 
@@ -46,9 +48,15 @@ export const MessageBox: React.FC<IMessageBox> = ({ isLast, message }) => {
             {format(new Date(message.createdAt), "p")}
           </div>
         </div>
+        <ImageModal
+          src={message?.image}
+          isOpenModal={openModal}
+          onClose={()=>setOpenModal(false)}
+        />
         <div className={messageItem}>
           {message.image ? (
             <Image
+              onClick={()=>setOpenModal(true)}
               alt="Image"
               width={"288"}
               height={"288"}

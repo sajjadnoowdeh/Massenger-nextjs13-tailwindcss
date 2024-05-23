@@ -8,6 +8,7 @@ import { IoClose, IoTrash } from "react-icons/io5";
 import Avatar from "@/app/components/Avatar";
 import Modal from "@/app/components/Modal";
 import ConfirmModal from "@/app/components/ConfirmModal";
+import AvatarGroup from "./AvatarGroup";
 interface IProfileDrawer {
   isOpen: boolean;
   onClose: () => void;
@@ -156,7 +157,12 @@ const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
                         "
                       >
                         <div className="mb-2">
-                          <Avatar user={otherUser} />
+                          {
+                            data.isGroup ?
+                             <AvatarGroup users={data.users} /> 
+                             :
+                             <Avatar user={otherUser} />
+                          }
                         </div>
                         <div>{title}</div>
 
@@ -253,6 +259,11 @@ const ProfileDrawer: React.FC<IProfileDrawer> = ({ isOpen, onClose, data }) => {
                                 </dd>
                               </div>
                             )}
+                            {
+                              data.isGroup && (
+                                data.users.map((user)=>user.email).join(", ")
+                              )
+                            }
                             {!data.isGroup && (
                               <>
                                 <hr />

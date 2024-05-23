@@ -98,7 +98,6 @@ const GroupModalChat: React.FC<IGroupModalChat> = ({
             </div>
           </div>
         </div>
-
         <div className="flex justify-end">
            <Button secoundry>
              Close

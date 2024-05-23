@@ -56,10 +56,13 @@ const Modal: React.FC<IModal> = ({ isOpen, onClose,children }) => {
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-0"
           >
             <Dialog.Panel
+            style={{
+              bottom:'120px'
+            }}
               className="
                      absolute
                      h-50
-                     top-[-30]
+                     bottom-8
                      transform
                      overflow-hidden
                      rounded-lg
